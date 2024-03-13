@@ -1,8 +1,7 @@
 <script setup lang="ts">
+import HomeIntro from "../home/HomeIntro.vue";
 </script>
 
 <template>
-  <div class="home-view">
-    <h2>Home view</h2>
-  </div>
+  <HomeIntro/>
 </template>
