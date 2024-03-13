@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {ref} from "vue";
+import {ICategoryResponse} from "../../interfaces/api/ICategoryResponse.ts";
+const categories = ref<ICategoryResponse[]>([]);
 </script>
 
 <template>
