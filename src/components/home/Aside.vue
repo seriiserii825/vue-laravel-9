@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {ICategoryResponse} from "../../interfaces/api/ICategoryResponse.ts";
-import {axiosInstance} from "../../axios/axios-instance.ts";
+
+const props = defineProps<{
+  categories: ICategoryResponse[]
+}>();
 
 const categories_left = ref<ICategoryResponse[]>([]);
 const categories_right = ref<ICategoryResponse[]>([]);
+
 
 function chunkArray(arr, n) {
   const chunkLength = Math.max(arr.length / n, 1);
@@ -17,8 +21,7 @@ function chunkArray(arr, n) {
 
 async function init() {
   try {
-    const data = await axiosInstance.get('category');
-    const categories_chunk = chunkArray(data.data, 2);
+    const categories_chunk = chunkArray(props.categories, 2);
     categories_left.value = categories_chunk[0];
     categories_right.value = categories_chunk[1];
   } catch (e) {
