@@ -24,13 +24,13 @@ onMounted(() => {
 <template>
   <HomeIntro/>
   <div class="container">
-    <div class="row">
+    <div class="row" v-if="home">
       <!-- Blog entries-->
       <div class="col-lg-8">
-        <PostsLoop/>
+        <PostsLoop v-if="home.posts" :posts="home.posts" />
       </div>
       <div class="col-lg-4">
-        <Aside v-if="home && home.categories" :categories="home.categories"/>
+        <Aside v-if="home.categories" :categories="home.categories"/>
       </div>
     </div>
   </div>
