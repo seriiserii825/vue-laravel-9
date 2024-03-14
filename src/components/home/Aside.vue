@@ -1,7 +1,35 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {ICategoryResponse} from "../../interfaces/api/ICategoryResponse.ts";
-const categories = ref<ICategoryResponse[]>([]);
+import {axiosInstance} from "../../axios/axios-instance.ts";
+
+const categories_left = ref<ICategoryResponse[]>([]);
+const categories_right = ref<ICategoryResponse[]>([]);
+
+function chunkArray(arr, n) {
+  const chunkLength = Math.max(arr.length / n, 1);
+  const chunks = [];
+  for (var i = 0; i < n; i++) {
+    if (chunkLength * (i + 1) <= arr.length) chunks.push(arr.slice(chunkLength * i, chunkLength * (i + 1)));
+  }
+  return chunks;
+}
+
+async function init() {
+  try {
+    const data = await axiosInstance.get('category');
+    const categories_chunk = chunkArray(data.data, 2);
+    categories_left.value = categories_chunk[0];
+    categories_right.value = categories_chunk[1];
+  } catch (e) {
+    console.log(e, 'e')
+  }
+
+}
+
+onMounted(() => {
+  init();
+})
 </script>
 
 <template>
@@ -23,16 +51,18 @@ const categories = ref<ICategoryResponse[]>([]);
       <div class="row">
         <div class="col-sm-6">
           <ul class="list-unstyled mb-0">
-            <li><a href="#!">Web Design</a></li>
-            <li><a href="#!">HTML</a></li>
-            <li><a href="#!">Freebies</a></li>
+            <li
+                v-for="category in categories_left"
+                :key="category.id"
+            ><a href="#!">{{ category.title}}</a></li>
           </ul>
         </div>
         <div class="col-sm-6">
           <ul class="list-unstyled mb-0">
-            <li><a href="#!">JavaScript</a></li>
-            <li><a href="#!">CSS</a></li>
-            <li><a href="#!">Tutorials</a></li>
+            <li
+                v-for="category in categories_right"
+                :key="category.id"
+            ><a href="#!">{{category.title}}</a></li>
           </ul>
         </div>
       </div>
