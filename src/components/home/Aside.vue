@@ -1,82 +1,39 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
 import {ICategoryResponse} from "../../interfaces/api/ICategoryResponse.ts";
+import {ref} from "vue";
+
+const emits = defineEmits(['emit_category_id']);
 
 const props = defineProps<{
   categories: ICategoryResponse[]
 }>();
 
-const categories_left = ref<ICategoryResponse[]>([]);
-const categories_right = ref<ICategoryResponse[]>([]);
+const current_category_id = ref<number>(0);
 
 
-function chunkArray(arr, n) {
-  const chunkLength = Math.max(arr.length / n, 1);
-  const chunks = [];
-  for (var i = 0; i < n; i++) {
-    if (chunkLength * (i + 1) <= arr.length) chunks.push(arr.slice(chunkLength * i, chunkLength * (i + 1)));
-  }
-  return chunks;
+function getCategory(id: number) {
+  current_category_id.value = id;
+  emits('emit_category_id', id);
 }
-
-async function init() {
-  try {
-    const categories_chunk = chunkArray(props.categories, 2);
-    categories_left.value = categories_chunk[0];
-    categories_right.value = categories_chunk[1];
-  } catch (e) {
-    console.log(e, 'e')
-  }
-
-}
-
-onMounted(() => {
-  init();
-})
 </script>
 
 <template>
-  <!-- Search widget-->
-  <div class="card mb-4">
-    <div class="card-header">Search</div>
-    <div class="card-body">
-      <div class="input-group">
-        <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..."
-               aria-describedby="button-search"/>
-        <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-      </div>
-    </div>
-  </div>
   <!-- Categories widget-->
   <div class="card mb-4">
     <div class="card-header">Categories</div>
     <div class="card-body">
       <div class="row">
-        <div class="col-sm-6">
-          <ul class="list-unstyled mb-0">
-            <li
-                v-for="category in categories_left"
-                :key="category.id"
-            ><a href="#!">{{ category.title}}</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-6">
-          <ul class="list-unstyled mb-0">
-            <li
-                v-for="category in categories_right"
-                :key="category.id"
-            ><a href="#!">{{category.title}}</a></li>
-          </ul>
-        </div>
+        <ul class="list-unstyled mb-0">
+          <li
+              v-for="category in categories"
+              :key="category.id"
+              @click="getCategory(category.id)"
+              class="btn btn-outline-primary m-2"
+              :class="{'btn-primary text-white': current_category_id === category.id}"
+          >{{ category.title }}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-  <!-- Side widget-->
-  <div class="card mb-4">
-    <div class="card-header">Side Widget</div>
-    <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature
-      the Bootstrap 5 card component!
-    </div>
-  </div>
-
 </template>
