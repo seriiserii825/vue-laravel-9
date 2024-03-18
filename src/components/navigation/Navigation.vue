@@ -17,6 +17,7 @@
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
         </ul>
       </div>
+      <router-link to="/register" class="btn btn-outline-primary">Register</router-link>
     </div>
   </nav>
 </template>
