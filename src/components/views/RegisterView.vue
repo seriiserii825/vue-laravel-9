@@ -1,49 +1,32 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import axios from "axios";
+import {axiosInstance} from "../../axios/axios-instance";
+import ErrorMessage from "../message/ErrorMessage.vue";
 
-const name = ref("Serii");
-const email = ref("seriiburduja@gmail.com");
-const password = ref("serii1981;");
-const password_confirmation = ref("serii1981;");
+const name = ref("");
+const email = ref("");
+const password = ref("");
+
+const errors = ref([]);
 
 const onSubmit = async () => {
   try {
-    await axios.get('/sanctum/csrf-cookie')
-    const response = await axios.post('/register', {
+    await axiosInstance.post('/register', {
       name: name.value,
       email: email.value,
       password: password.value,
-      password_confirmation: password_confirmation.value
     });
-  } catch (e) {
-    console.log(e, 'e')
+    errors.value = [];   //console.log(repsonse, "repsonse");
+  } catch (e: any) {
     if (e.response.status === 422) {
-      console.log(response.data.errors, 'response.data.errors')
+      if (e.response.data.errors) {
+        errors.value = e.response.data.errors;
+      }
+      console.log(e.response.data.errors, 'response.data.errors')
     } else {
       console.log(e, 'e')
     }
   }
-
-  await axios.get('/sanctum/csrf-cookie')
-  await axios.post('/register', {
-    name: name.value,
-    email: email.value,
-    password: password.value,
-    password_confirmation: password_confirmation.value
-  }).then(response => {
-    this.validationErrors = {}
-    this.signIn()
-  }).catch(({response}) => {
-    if (response.status === 422) {
-      this.validationErrors = response.data.errors
-    } else {
-      this.validationErrors = {}
-      alert(response.data.message)
-    }
-  }).finally(() => {
-    this.processing = false
-  })
 };
 </script>
 
@@ -55,21 +38,18 @@ const onSubmit = async () => {
           <h2 class="mb-3">Register</h2>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Name</label>
-            <input type="email" v-model="name" class="form-control" id="exampleInputEmail1"
-                   aria-describedby="emailHelp">
+            <input type="email" v-model="name" class="form-control" aria-describedby="emailHelp">
+            <ErrorMessage v-if="errors['name']" :error="errors['name'][0]"/>
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" v-model="email" id="exampleInputEmail1"
-                   aria-describedby="emailHelp">
+            <input type="email" class="form-control" v-model="email" aria-describedby="emailHelp">
+            <ErrorMessage v-if="errors['email']" :error="errors['email'][0]"/>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" v-model="password" id="exampleInputPassword1">
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password confirmation</label>
-            <input type="password" class="form-control" v-model="password_confirmation" id="exampleInputPassword1">
+            <input type="password" class="form-control" v-model="password">
+            <ErrorMessage v-if="errors['password']" :error="errors['password'][0]"/>
           </div>
           <button @click="onSubmit" type="submit" class="btn btn-primary">Submit</button>
         </div>
@@ -80,6 +60,7 @@ const onSubmit = async () => {
 <style lang="scss">
 .register {
   padding: 8rem;
+
   &__form {
     margin: 0 auto;
     padding: 3.2rem;
