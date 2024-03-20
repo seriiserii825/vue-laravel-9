@@ -8,10 +8,12 @@ const loading = ref(true);
 async function getUser() {
   try {
     await axiosInstance.get('/user');
-    loading.value = false;
+    setTimeout(() => {
+      loading.value = false;
+    }, 1000);
   } catch (error) {
     console.log(error, "error");
-    loading.value = false;
+    // loading.value = false;
   }
 }
 

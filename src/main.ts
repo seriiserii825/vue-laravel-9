@@ -20,9 +20,7 @@ addErrorHandler((error: any) => {
   console.log(error_code, "error_code");
   if (error_code === 400 || error_code === 401 || error_code === 419) {
     useResetLocalStorage();
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 1000);
+    window.location.href = "/login";
   }
   if ("error_alert" in config) {
     console.log(config.error_alert, "config.error_alert");
