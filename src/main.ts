@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import {createRouter, createWebHistory} from 'vue-router'
 // import './style.css'
+import './assets/css/bootstrap.css'
 import './assets/css/styles.css'
 import App from './App.vue'
 import {routes} from "./routes.ts";

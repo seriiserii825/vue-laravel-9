@@ -10,14 +10,15 @@ const errors = ref([]);
 
 const onSubmit = async () => {
   try {
-    await axiosInstance.post('/login', {
+    const response = await axiosInstance.post('/login', {
       email: email.value,
       password: password.value,
     });
+    localStorage.setItem("userToken", response.data.access_token);
     errors.value = [];   //console.log(repsonse, "repsonse");
   } catch (e: any) {
-    // console.log(e.response.status, "e.response.status");
-    if (e.response.status === 422 || e.response.status === 401) {
+    console.log(e, "e");
+    if (e.repsonse && e.response.status === 422 || e.response.status === 401) {
       console.log(e.response.data, 'e')
       if (e.response.data.errors) {
         errors.value = e.response.data.errors;
@@ -39,12 +40,12 @@ const onSubmit = async () => {
           <h2 class="mb-3">Login</h2>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" v-model="email" aria-describedby="emailHelp">
+            <input type="email" name="email" class="form-control" v-model="email" aria-describedby="emailHelp">
             <ErrorMessage v-if="errors['email']" :error="errors['email'][0]" />
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" v-model="password">
+            <input type="password" name="password" class="form-control" v-model="password">
             <ErrorMessage v-if="errors['password']" :error="errors['password'][0]" />
           </div>
           <button @click="onSubmit" type="submit" class="btn btn-primary">Submit</button>
