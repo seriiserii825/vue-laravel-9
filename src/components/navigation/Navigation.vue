@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {axiosInstance} from '../../axios/axios-instance';
+import useIsLoggedIn from '../../hooks/useIsLoggedIn';
 
 async function logout() {
   try {
     await axiosInstance.post('/logout');
+    window.location.href = "/login";
   } catch (error) {
     console.log(error, "error");
   }
@@ -26,9 +28,11 @@ async function logout() {
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
         </ul>
       </div>
-      <router-link to="/register" class="btn btn-outline-primary me-2">Register</router-link>
-      <router-link to="/login" class="btn btn-outline-primary">Login</router-link>
-      <button @click="logout" class="btn btn-outline-primary">Logout</button>
+      <button v-if="useIsLoggedIn()" @click="logout" class="btn btn-outline-primary">Logout</button>
+      <template v-else>
+        <router-link to="/register" class="btn btn-outline-primary me-2">Register</router-link>
+        <router-link to="/login" class="btn btn-outline-primary">Login</router-link>
+      </template>
     </div>
   </nav>
 </template>

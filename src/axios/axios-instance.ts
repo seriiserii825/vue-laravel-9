@@ -15,5 +15,9 @@ axiosInstance.interceptors.request.use(function (config) {
   return config;
 });
 
+export function addErrorHandler(fn: any) {
+    axiosInstance.interceptors.response.use(response => response, fn);
+    axiosInstance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+}
 
 export {axiosInstance};
