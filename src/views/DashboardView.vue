@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import {axiosInstance} from '../../axios/axios-instance';
-import Preloader from '../loading/Preloader.vue';
+import {axiosInstance} from '../axios/axios-instance';
+import Preloader from '../components/loading/Preloader.vue';
 
 const loading = ref(true);
 

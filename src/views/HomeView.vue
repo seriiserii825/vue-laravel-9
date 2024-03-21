@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import HomeIntro from "../home/HomeIntro.vue";
-import PostsLoop from "../home/PostsLoop.vue";
-import Aside from "../home/Aside.vue";
-import {Ihome} from "../../interfaces/home/Ihome.ts";
+import HomeIntro from "../components/home/HomeIntro.vue";
+import PostsLoop from "../components/home/PostsLoop.vue";
+import Aside from "../components/home/Aside.vue";
+import {Ihome} from "../interfaces/home/Ihome.ts";
 import {onMounted, ref} from "vue";
-import {axiosInstance} from "../../axios/axios-instance.ts";
-import {IPost} from "../../interfaces/home/IPost.ts";
-import Preloader from "../loading/Preloader.vue";
+import {axiosInstance} from "../axios/axios-instance.ts";
+import {IPost} from "../interfaces/home/IPost.ts";
+import Preloader from "../components/loading/Preloader.vue";
 
 const home = ref<Ihome>();
 const posts = ref<IPost[]>([]);

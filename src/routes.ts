@@ -1,7 +1,7 @@
-import DashboardView from "./components/views/DashboardView.vue";
-import HomeView from "./components/views/HomeView.vue";
-import LoginView from "./components/views/LoginView.vue";
-import RegisterView from "./components/views/RegisterView.vue";
+import DashboardView from "./views/DashboardView.vue";
+import HomeView from "./views/HomeView.vue";
+import LoginView from "./views/LoginView.vue";
+import RegisterView from "./views/RegisterView.vue";
 
 export const routes = [
   {

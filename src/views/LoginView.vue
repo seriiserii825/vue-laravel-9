@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {axiosInstance} from "../../axios/axios-instance";
-import ErrorMessage from "../message/ErrorMessage.vue";
+import {axiosInstance} from "../axios/axios-instance";
+import ErrorMessage from "../components/message/ErrorMessage.vue";
 
 const email = ref("");
 const password = ref("");
