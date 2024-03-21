@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Navigation from './components/navigation/Navigation.vue';
-import Footer from "./components/footer/Footer.vue";
+import {RouterView} from 'vue-router'
+import AppLayout from './layouts/AppLayout.vue';
 </script>
 
 <template>
-  <Navigation/>
-    <router-view/>
-  <Footer/>
+  <AppLayout>
+    <RouterView />
+  </AppLayout>
 </template>

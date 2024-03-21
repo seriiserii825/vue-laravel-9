@@ -7,12 +7,15 @@ import App from './App.vue'
 import {routes} from "./routes.ts";
 import useResetLocalStorage from './hooks/useResetLocalStorage.ts'
 import {addErrorHandler} from './axios/axios-instance.ts'
+import {loadLayoutMiddleware} from './middleware/loadLayoutMiddleware.ts'
 
 const app = createApp(App)
 const router = createRouter({
   history: createWebHistory(),
   routes: routes
 })
+
+router.beforeEach(loadLayoutMiddleware);
 
 addErrorHandler((error: any) => {
   const config = error.response.config;
