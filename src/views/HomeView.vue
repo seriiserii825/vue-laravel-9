@@ -7,28 +7,28 @@ import {onMounted, ref} from "vue";
 import {axiosInstance} from "../axios/axios-instance.ts";
 import {IPost} from "../interfaces/home/IPost.ts";
 import Preloader from "../components/loading/Preloader.vue";
+import {ICategoryResponse} from "../interfaces/api/ICategoryResponse.ts";
 
-const home = ref<Ihome>();
 const posts = ref<IPost[]>([]);
+const categories = ref<ICategoryResponse[]>([]);
 const loading = ref<boolean>(true);
-
-async function getHome() {
-  loading.value = true;
-  const data = await axiosInstance.get('/home');
-  home.value = data.data;
-  posts.value = home.value.posts;
-  stopLoading();
-}
 
 async function getPostsByCategory(id: number) {
   loading.value = true;
   const data = await axiosInstance.get(`/post?category_id=${id}`);
-  posts.value = data.data.posts;
+  posts.value = data.data.data;
+  console.log(posts.value, "posts.value");
   stopLoading();
 }
 
+async function getCategories() {
+  const data = await axiosInstance.get("/category");
+  categories.value = data.data.categories;
+}
+
 async function init() {
-  await getHome();
+  await getCategories();
+  await getPostsByCategory(0);
 }
 
 function stopLoading() {
@@ -43,19 +43,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <HomeIntro/>
+  <HomeIntro />
   <div class="container" style="min-height: 100vh">
-    <div class="row" v-if="home">
+    <div class="row">
       <!-- Blog entries-->
       <div class="col-lg-8">
-        <Preloader v-if="loading"/>
+        <Preloader v-if="loading" />
         <div v-else>
           <h3>Posts count: {{ posts.length }}</h3>
-          <PostsLoop v-if="posts" :posts="posts"/>
+          <PostsLoop v-if="posts" :posts="posts" />
         </div>
       </div>
       <div class="col-lg-4">
-        <Aside v-if="home.categories" :categories="home.categories" @emit_category_id="getPostsByCategory"/>
+        <Aside v-if="categories" :categories="categories" @emit_category_id="getPostsByCategory" />
       </div>
     </div>
   </div>

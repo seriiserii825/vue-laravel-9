@@ -18,8 +18,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Featured blog post-->
-  <PostItem :post="posts[0]"/>
   <!-- Nested row for non-featured blog posts-->
   <div class="row">
     <div class="col-lg-6">
