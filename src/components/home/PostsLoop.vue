@@ -39,6 +39,7 @@ onMounted(() => {
       <PostItem v-for="post in posts_row[1]" :key="post.id" :post="post" />
     </div>
   </div>
+  <!-- TODO: move pagination to home -->
   <div v-if="total_pages > 1" class="row mb-4">
     <v-pagination v-model="current_page" :pages="total_pages" :range-size="1" active-color="#DCEDFF" @update:modelValue="updateHandler" />
   </div>
