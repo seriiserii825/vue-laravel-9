@@ -1,4 +1,5 @@
 import {createApp} from 'vue'
+import { createPinia } from 'pinia'
 import {createRouter, createWebHistory} from 'vue-router'
 // import './style.css'
 import './assets/css/bootstrap.css'
@@ -33,4 +34,5 @@ addErrorHandler((error: any) => {
 });
 
 app.use(router)
+app.use(createPinia())
 app.mount('#app')

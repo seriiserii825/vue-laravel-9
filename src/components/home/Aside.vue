@@ -1,36 +1,23 @@
 <script setup lang="ts">
-import {ICategoryResponse} from "../../interfaces/api/ICategoryResponse.ts";
-import {ref} from "vue";
+import {storeToRefs} from 'pinia';
+import {useHomeStore} from '../../stores/home-store';
 
-const emits = defineEmits(['emit_category_id']);
-
-const props = defineProps<{
-  categories: ICategoryResponse[]
-}>();
-
-const current_category_id = ref<number>(0);
-
-
+const home_store = useHomeStore();
+const {categories, category_id} = storeToRefs(home_store);
 function getCategory(id: number) {
-  current_category_id.value = id;
-  emits('emit_category_id', id);
+  home_store.setCategoryId(id);
 }
 </script>
 
 <template>
-  <!-- Categories widget-->
   <div class="card mb-4">
     <div class="card-header">Categories</div>
     <div class="card-body">
       <div class="row">
-        <ul class="list-unstyled mb-0">
-          <li
-              v-for="category in categories"
-              :key="category.id"
-              @click="getCategory(category.id)"
-              class="btn btn-outline-primary m-2"
-              :class="{'btn-primary text-white': current_category_id === category.id}"
-          >{{ category.title }}
+        <ul v-if="categories && categories.length > 0" class="list-unstyled mb-0">
+          <li v-for="category in categories" :key="category.id" @click="getCategory(category.id)"
+            class="btn btn-outline-primary m-2" :class="{'btn-primary text-white': category_id === category.id}">{{
+          category.title }}
           </li>
         </ul>
       </div>
