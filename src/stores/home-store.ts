@@ -15,8 +15,13 @@ export const useHomeStore = defineStore("home", () => {
   const post_loading = ref<boolean>(false);
 
   function setPosts(data: IPost[]) {
-    // console.log(posts.value, "posts.value");
     posts.value = data;
+  }
+
+  function stopLoading() {
+    setTimeout(() => {
+      post_loading.value = false;
+    }, 500)
   }
 
   function setPostLoading(loading: boolean) {
@@ -28,14 +33,14 @@ export const useHomeStore = defineStore("home", () => {
     const data = await axiosInstance.get(`/post?category_id=${id}&page=${page}`);
     setPosts(data.data.data);
     setPostsMeta(data.data.meta);
-    post_loading.value = false;
+    stopLoading();
   }
 
   async function getCategories() {
     post_loading.value = true;
     const data = await axiosInstance.get("/category");
     setCategories(data.data.categories);
-    post_loading.value = false;
+    stopLoading();
   }
 
 

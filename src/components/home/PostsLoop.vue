@@ -32,7 +32,7 @@ onMounted(() => {
 
 <template>
   <!-- Nested row for non-featured blog posts-->
-  <div class="row" v-if="posts_row && posts_row.length > 1">
+  <div class="row" v-if="posts_row && posts_row.length > 0">
     <div class="col-lg-6">
       <PostItem v-for="post in posts_row[0]" :key="post.id" :post="post" />
     </div>

@@ -4,8 +4,9 @@ import {useHomeStore} from '../../stores/home-store';
 
 const home_store = useHomeStore();
 const {categories, category_id} = storeToRefs(home_store);
-function getCategory(id: number) {
+async function getCategory(id: number) {
   home_store.setCategoryId(id);
+  await home_store.getPostsByCategory(id);
 }
 </script>
 
