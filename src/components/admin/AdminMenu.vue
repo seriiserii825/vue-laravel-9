@@ -7,7 +7,7 @@
       <router-link to="/">Home</router-link>
     </li>
     <li>
-      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link to="/admin/dashboard">Dashboard</router-link>
     </li>
     <li>
       <router-link to="/admin/posts">Posts</router-link>
@@ -21,6 +21,9 @@
     margin-bottom: 3.2rem;
     text-decoration: none;
     color: white;
+    &.router-link-exact-active {
+      color: green;
+    }
   }
 }
 </style>

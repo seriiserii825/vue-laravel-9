@@ -20,10 +20,10 @@ useLifecycleLogger('default');
   min-height: 100vh;
 
   &__menu {
-    padding: 2rem;
+    padding: 3.2rem 2rem;
     flex: 0 0 20rem;
     color: white;
-    background: #888;
+    background: #444;
   }
 
   &__content {

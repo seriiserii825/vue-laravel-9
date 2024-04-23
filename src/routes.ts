@@ -1,3 +1,4 @@
+import AdminPostsView from "./views/AdminPostsView.vue";
 import DashboardView from "./views/DashboardView.vue";
 import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
@@ -24,7 +25,13 @@ export const routes = [
     }
   },
   {
-    path: '/dashboard', component: DashboardView,
+    path: '/admin/dashboard', component: DashboardView,
+    meta: {
+      layout: 'admin'
+    }
+  },
+  {
+    path: '/admin/posts', component: AdminPostsView,
     meta: {
       layout: 'admin'
     }
