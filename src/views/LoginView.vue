@@ -15,7 +15,7 @@ const onSubmit = async () => {
       password: password.value,
     });
     localStorage.setItem("userToken", response.data.access_token);
-    window.location.href = "/dashboard";
+    window.location.href = "/admin/posts";
     errors.value = [];   //console.log(repsonse, "repsonse");
   } catch (e: any) {
     console.log(e, "e");
