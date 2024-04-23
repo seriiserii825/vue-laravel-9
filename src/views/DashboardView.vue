@@ -31,3 +31,5 @@ onMounted(() => {
     <h2>Dashboard</h2>
   </div>
 </template>
+<style lang="scss">
+</style>
