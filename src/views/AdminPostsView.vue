@@ -5,12 +5,17 @@ import {IPost} from '../interfaces/home/IPost';
 import {ICategoryResponse} from '../interfaces/api/ICategoryResponse';
 import Paginate from '../components/ui/Paginate.vue';
 import Preloader from '../components/loading/Preloader.vue';
+import SelectComponent from '../components/ui/SelectComponent.vue';
+
+// const
 const posts = ref<IPost[]>([])
 const categories = ref<ICategoryResponse[]>([])
 const current_page = ref(1);
 const total_pages = ref(5);
 const loading = ref(true);
 const total = ref(0);
+const category_options = ref<ICategoryResponse[]>([]);
+const current_category = ref<ICategoryResponse>({});
 
 function setFalse() {
   setTimeout(() => {
@@ -36,6 +41,8 @@ async function getCategories() {
   try {
     const response = await axiosInstance.get('/category');
     categories.value = response.data.categories;
+    category_options.value = response.data.categories;
+    current_category.value = response.data.categories[0];
   } catch (error) {
     console.log(error, "error");
   }
@@ -68,7 +75,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3>Admin posts ({{ total }})</h3>
+  <header class="admin-posts-view__header">
+    <h3 class="admin-posts-view__total">Admin posts ({{ total }})</h3>
+    <SelectComponent :options="category_options" v-model:value="current_category" label="Category" />
+  </header>
   <Preloader v-if="loading" />
   <div class="admin-posts-view" v-else>
     <table>
@@ -96,6 +106,10 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .admin-posts-view {
+  &__total {
+    margin-bottom: 3.2rem;
+  }
+
   table {
     margin-top: 20px;
     width: 100%;
