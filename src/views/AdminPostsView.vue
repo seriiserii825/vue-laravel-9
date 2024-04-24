@@ -3,14 +3,32 @@ import {onMounted, ref} from 'vue';
 import {axiosInstance} from '../axios/axios-instance';
 import {IPost} from '../interfaces/home/IPost';
 import {ICategoryResponse} from '../interfaces/api/ICategoryResponse';
+import Paginate from '../components/ui/Paginate.vue';
+import Preloader from '../components/loading/Preloader.vue';
 const posts = ref<IPost[]>([])
 const categories = ref<ICategoryResponse[]>([])
+const current_page = ref(1);
+const total_pages = ref(5);
+const loading = ref(true);
+const total = ref(0);
+
+function setFalse() {
+  setTimeout(() => {
+    loading.value = false;
+  }, 600);
+}
 
 async function getPosts() {
+  loading.value = true;
   try {
-    const response = await axiosInstance.get('/admin/post');
+    const response = await axiosInstance.get(`/admin/post?page=${current_page.value}`);
     posts.value = response.data.data;
+    current_page.value = response.data.meta.current_page;
+    total_pages.value = response.data.meta.last_page;
+    total.value = response.data.meta.total;
+    setFalse();
   } catch (error) {
+    setFalse();
     console.log(error, "error");
   }
 }
@@ -19,6 +37,18 @@ async function getCategories() {
     const response = await axiosInstance.get('/category');
     categories.value = response.data.categories;
   } catch (error) {
+    console.log(error, "error");
+  }
+}
+
+async function updateCurrent(page: number) {
+  loading.value = true;
+  current_page.value = page;
+  try {
+    await getPosts();
+    setFalse();
+  } catch (error) {
+    setFalse();
     console.log(error, "error");
   }
 }
@@ -33,14 +63,14 @@ async function init() {
   await getPosts();
 }
 onMounted(() => {
-  console.log('AdminPostsView mounted');
   init();
 });
 </script>
 
 <template>
-  <div class="admin-posts-view">
-    <h3>Admin posts</h3>
+  <h3>Admin posts ({{ total }})</h3>
+  <Preloader v-if="loading" />
+  <div class="admin-posts-view" v-else>
     <table>
       <thead>
         <tr>
@@ -59,14 +89,17 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
+    <div class="admin-post-view__pagination">
+      <Paginate :current_page="current_page" :total_pages="total_pages" @update_current="updateCurrent" />
+    </div>
   </div>
 </template>
 <style lang="scss">
 .admin-posts-view {
   table {
+    margin-top: 20px;
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 
     thead {
       background-color: #f1f1f1;
@@ -81,6 +114,7 @@ onMounted(() => {
       tr:nth-child(even) {
         background-color: #f9f9f9;
       }
+
       td {
         padding: 10px;
         border-bottom: 1px solid #f1f1f1;
