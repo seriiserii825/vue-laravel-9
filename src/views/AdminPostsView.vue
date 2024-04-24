@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import {axiosInstance} from '../axios/axios-instance';
 import {IPost} from '../interfaces/home/IPost';
 import {ICategoryResponse} from '../interfaces/api/ICategoryResponse';
@@ -26,7 +26,11 @@ function setFalse() {
 async function getPosts() {
   loading.value = true;
   try {
-    const response = await axiosInstance.get(`/admin/post?page=${current_page.value}`);
+    let url = `/admin/post?page=${current_page.value}&category_id=${current_category.value.id}`;
+    if (current_category.value.id === 0) {
+      url = `/admin/post?page=${current_page.value}`;
+    }
+    const response = await axiosInstance.get(url);
     posts.value = response.data.data;
     current_page.value = response.data.meta.current_page;
     total_pages.value = response.data.meta.last_page;
@@ -42,6 +46,7 @@ async function getCategories() {
     const response = await axiosInstance.get('/category');
     categories.value = response.data.categories;
     category_options.value = response.data.categories;
+    category_options.value.unshift({id: 0, title: 'All', slug: '', created_at: '', updated_at: ''});
     current_category.value = response.data.categories[0];
   } catch (error) {
     console.log(error, "error");
@@ -59,6 +64,25 @@ async function updateCurrent(page: number) {
     console.log(error, "error");
   }
 }
+
+watch(current_category, async (newVal) => {
+  loading.value = true;
+  try {
+    let url = `/admin/post?category_id=${newVal.id}`;
+    if (newVal.id === 0) {
+      url = `/admin/post`;
+    }
+    const response = await axiosInstance.get(url);
+    posts.value = response.data.data;
+    current_page.value = response.data.meta.current_page;
+    total_pages.value = response.data.meta.last_page;
+    total.value = response.data.meta.total;
+    setFalse();
+  } catch (error) {
+    setFalse();
+    console.log(error, "error");
+  }
+});
 
 function getCategoryName(categoryId: number) {
   const category = categories.value.find((category) => category.id === categoryId);
