@@ -114,6 +114,7 @@ onMounted(() => {
 <template>
   <header class="admin-posts-view__header">
     <h3 class="admin-posts-view__total">Admin posts ({{ total }})</h3>
+    <RouterLink to="/admin/posts/create" class="btn btn-success">Create New</RouterLink>
     <SelectComponent :options="category_options" v-model:value="current_category" label="Category" />
   </header>
   <Preloader v-if="loading" />
@@ -155,8 +156,17 @@ onMounted(() => {
 </template>
 <style lang="scss">
 .admin-posts-view {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .btn {
+      margin-right: auto;
+      margin-left: 3rem;
+    }
+  }
   &__total {
-    margin-bottom: 3.2rem;
+    /* margin-bottom: 3.2rem; */
   }
 
   table {

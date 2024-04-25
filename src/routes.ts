@@ -1,3 +1,4 @@
+import AdminPostCreateView from "./views/AdminPostCreateView.vue";
 import AdminPostsView from "./views/AdminPostsView.vue";
 import DashboardView from "./views/DashboardView.vue";
 import HomeView from "./views/HomeView.vue";
@@ -36,18 +37,28 @@ export const routes = [
       layout: 'admin'
     }
   },
+  {
+    path: '/admin/posts/create', component: AdminPostCreateView,
+    meta: {
+      layout: 'admin'
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: "/",
+  }
 ]
 
 
 async function loadLayoutMiddleware(route) {
-    const {layout} = route.meta;
-    const normalizedLayoutName = layout || E_Layouts.DEFAULT;
-    const fileName = E_LayoutToFileMap[normalizedLayoutName];
-    const fileNameWithoutExtension = fileName.split('.vue')[0];
+  const {layout} = route.meta;
+  const normalizedLayoutName = layout || E_Layouts.DEFAULT;
+  const fileName = E_LayoutToFileMap[normalizedLayoutName];
+  const fileNameWithoutExtension = fileName.split('.vue')[0];
 
-    const component = await import(
-        `../../layouts/${fileNameWithoutExtension}.vue`
-        );
-    route.meta.layout_component = component.default;
+  const component = await import(
+    `../../layouts/${fileNameWithoutExtension}.vue`
+  );
+  route.meta.layout_component = component.default;
 }
 
