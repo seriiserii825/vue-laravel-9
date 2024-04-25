@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import {onMounted, ref, watch} from 'vue';
+import {onMounted, ref} from 'vue';
 import {axiosInstance} from '../axios/axios-instance';
-import {IPost} from '../interfaces/home/IPost';
-import {ICategoryResponse} from '../interfaces/api/ICategoryResponse';
 import Preloader from '../components/loading/Preloader.vue';
+import {ICategoryAdmin} from '../interfaces/category/ICategoryAdmin';
 
-const categories = ref<ICategoryResponse[]>([])
+const categories = ref<ICategoryAdmin[]>([])
 const loading = ref(true);
 const sort_field = ref<string>('created_at')
 const sort_direction = ref<string>('desc')
@@ -18,8 +17,8 @@ function setFalse() {
 
 async function getCategories() {
   try {
-    const response = await axiosInstance.get('/category');
-    categories.value = response.data.categories;
+    const response = await axiosInstance.get(`/admin/category_admin?sort_field=${sort_field.value}&sort_direction=${sort_direction.value}`);
+    categories.value = response.data.data;
     setFalse();
   } catch (error) {
     console.log(error, "error");
@@ -90,6 +89,7 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .btn {
       margin-right: auto;
       margin-left: 3rem;
