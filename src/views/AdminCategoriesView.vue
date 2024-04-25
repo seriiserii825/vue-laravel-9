@@ -49,7 +49,7 @@ onMounted(() => {
 <template>
   <header class="admin-posts-view__header">
     <h3 class="admin-posts-view__total"></h3>
-    <RouterLink to="/admin/posts/create" class="btn btn-success">Create New</RouterLink>
+    <RouterLink to="/admin/categories/create" class="btn btn-success">Create New</RouterLink>
   </header>
   <Preloader v-if="loading" />
   <div class="admin-posts-view" v-else>

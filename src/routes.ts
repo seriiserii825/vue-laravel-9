@@ -1,4 +1,5 @@
 import AdminCategoriesView from "./views/AdminCategoriesView.vue";
+import AdminCategoryCreateView from "./views/AdminCategoryCreateView.vue";
 import AdminPostCreateView from "./views/AdminPostCreateView.vue";
 import AdminPostsView from "./views/AdminPostsView.vue";
 import DashboardView from "./views/DashboardView.vue";
@@ -34,6 +35,12 @@ export const routes = [
   },
   {
     path: '/admin/categories', component: AdminCategoriesView,
+    meta: {
+      layout: 'admin'
+    }
+  },
+  {
+    path: '/admin/categories/create', component: AdminCategoryCreateView,
     meta: {
       layout: 'admin'
     }
