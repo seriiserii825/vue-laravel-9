@@ -12,6 +12,9 @@
     <li>
       <router-link to="/admin/posts">Posts</router-link>
     </li>
+    <li>
+      <router-link to="/admin/categories">Categories</router-link>
+    </li>
   </ul>
 </template>
 <style lang="scss">

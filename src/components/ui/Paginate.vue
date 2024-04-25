@@ -58,7 +58,7 @@ function updateCurrent(e,index) {
     align-items: center;
     width: 100%;
     height: 100%;
-    font-size: 2rem;
+    font-size: 1.4rem;
     color: var(--accent-dark);
     background: #ccc;
     border: 1px solid var(--accent-dark);
