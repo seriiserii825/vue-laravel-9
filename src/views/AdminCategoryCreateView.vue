@@ -1,20 +1,33 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
 import {axiosInstance} from '../axios/axios-instance';
+import {useRouter} from 'vue-router';
+import {E_Router} from '../enum/E_Router';
+
+const router = useRouter();
 
 const form_fields = ref({
   title: '',
   slug: ''
 })
 const errors = ref({})
+const record_exists = ref(false);
+
+watch(() => form_fields.value.title, () => {
+  form_fields.value.slug = form_fields.value.title.toLowerCase().replace(/ /g, '-');
+})
 
 async function submitForm() {
   try {
-    const response = await axiosInstance.post('/admin/category_admin', form_fields.value);
-    console.log(response.data, "response.data");
+    await axiosInstance.post('/admin/category_admin', form_fields.value);
+    router.push(E_Router.ADMIN_CATEGORIES)
+    record_exists.value = false;
   } catch (error) {
     if (error.response && error.response.status === 422) {
       errors.value = error.response.data.errors;
+      record_exists.value = false;
+    } else {
+      record_exists.value = true;
     }
     console.log(error, "error");
   }
@@ -26,6 +39,7 @@ async function submitForm() {
 <template>
   <div class="admin-post-create-view">
     <h2 class="mb-5">Create New Category</h2>
+    <div v-if="record_exists" class="alert alert-danger">Record already exists</div>
     <form @submit.prevent="submitForm">
       <div class="form-group mb-4">
         <label for="title">Title</label>
