@@ -1,3 +1,4 @@
+import {E_Router} from "./enum/E_Router";
 import AdminCategoriesView from "./views/AdminCategoriesView.vue";
 import AdminCategoryCreateView from "./views/AdminCategoryCreateView.vue";
 import AdminPostCreateView from "./views/AdminPostCreateView.vue";
@@ -16,43 +17,43 @@ export const routes = [
     }
   },
   {
-    path: '/register', component: RegisterView,
+    path: E_Router.HOME, component: RegisterView,
     meta: {
       layout: 'default'
     }
   },
   {
-    path: '/login', component: LoginView,
+    path: E_Router.LOGIN, component: LoginView,
     meta: {
       layout: 'default'
     }
   },
   {
-    path: '/admin/dashboard', component: DashboardView,
+    path: E_Router.ADMIN_DASHBOARD, component: DashboardView,
     meta: {
       layout: 'admin'
     }
   },
   {
-    path: '/admin/categories', component: AdminCategoriesView,
+    path: E_Router.ADMIN_CATEGORIES, component: AdminCategoriesView,
     meta: {
       layout: 'admin'
     }
   },
   {
-    path: '/admin/categories/create', component: AdminCategoryCreateView,
+    path: E_Router.ADMIN_CATEGORIES_CREATE, component: AdminCategoryCreateView,
     meta: {
       layout: 'admin'
     }
   },
   {
-    path: '/admin/posts', component: AdminPostsView,
+    path: E_Router.ADMIN_POSTS, component: AdminPostsView,
     meta: {
       layout: 'admin'
     }
   },
   {
-    path: '/admin/posts/create', component: AdminPostCreateView,
+    path: E_Router.ADMIN_POSTS_CREATE, component: AdminPostCreateView,
     meta: {
       layout: 'admin'
     }
