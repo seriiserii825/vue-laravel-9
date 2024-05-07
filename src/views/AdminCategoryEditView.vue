@@ -65,7 +65,7 @@ onMounted(() => {
         <input v-model="form_fields.slug" type="text" id="slug" name="slug" class="form-control" />
         <span v-if="errors && errors.slug" class="text-danger">{{ errors.slug[0] }}</span>
       </div>
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">Update</button>
     </form>
   </div>
 </template>

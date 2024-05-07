@@ -38,6 +38,17 @@ async function sortField(field: string) {
   }
 }
 
+async function onDelete(id: number) {
+  if (confirm('Are you sure you want to delete this record?')) {
+    try {
+      await axiosInstance.delete(`/admin/category_admin/${id}`);
+      await getCategories();
+    } catch (error) {
+      console.log(error, "error");
+    }
+  }
+}
+
 async function init() {
   await getCategories();
 }
@@ -81,7 +92,7 @@ onMounted(() => {
           <td>{{ category.created_at }}</td>
           <td>
             <RouterLink :to="'/admin/categories/edit/' + category.id" class="btn btn-primary">Edit</RouterLink>
-            <button class="btn btn-danger ml-2">Delete</button>
+            <button class="btn btn-danger ml-2" @click="onDelete(category.id)">Delete</button>
           </td>
         </tr>
       </tbody>
