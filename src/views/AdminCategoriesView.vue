@@ -71,6 +71,7 @@ onMounted(() => {
               <span v-if="sort_field === 'created_at' && sort_direction === 'asc'">&darr;</span>
             </a>
           </td>
+          <td>Actions</td>
         </tr>
       </thead>
       <tbody>
@@ -78,6 +79,10 @@ onMounted(() => {
           <td>{{ category.id }}</td>
           <td>{{ category.title }}</td>
           <td>{{ category.created_at }}</td>
+          <td>
+            <RouterLink :to="'/admin/categories/edit/' + category.id" class="btn btn-primary">Edit</RouterLink>
+            <button class="btn btn-danger ml-2">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>

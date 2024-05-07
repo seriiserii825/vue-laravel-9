@@ -1,6 +1,7 @@
 import {E_Router} from "./enum/E_Router";
 import AdminCategoriesView from "./views/AdminCategoriesView.vue";
 import AdminCategoryCreateView from "./views/AdminCategoryCreateView.vue";
+import AdminCategoryEditView from "./views/AdminCategoryEditView.vue";
 import AdminPostCreateView from "./views/AdminPostCreateView.vue";
 import AdminPostsView from "./views/AdminPostsView.vue";
 import DashboardView from "./views/DashboardView.vue";
@@ -42,6 +43,12 @@ export const routes = [
   },
   {
     path: E_Router.ADMIN_CATEGORIES_CREATE, component: AdminCategoryCreateView,
+    meta: {
+      layout: 'admin'
+    }
+  },
+  {
+    path: E_Router.ADMIN_CATEGORIES_EDIT, component: AdminCategoryEditView,
     meta: {
       layout: 'admin'
     }

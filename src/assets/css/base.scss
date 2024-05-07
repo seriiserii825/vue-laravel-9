@@ -140,10 +140,28 @@ button::-moz-focus-inner {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
 }
+
 .btn {
   font-size: 1.6rem;
 }
+
 .form-control {
   padding: 1rem 2rem;
   font-size: 1.4rem;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.ml-2 {
+  margin-left: 2rem;
+}
+
+.ml-3 {
+  margin-left: 3rem;
+}
+
+.ml-4 {
+  margin-left: 4rem;
 }
