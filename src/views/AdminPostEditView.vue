@@ -13,6 +13,7 @@ const form_fields = ref({
   text: '',
   category_id: 0
 })
+const post_id = ref(router.currentRoute.value.params.id);
 
 const errors = ref()
 const record_exists = ref(false);
@@ -23,7 +24,7 @@ const current_category = ref<ICategoryResponse>();
 async function getCategories() {
   try {
     const response = await axiosInstance.get('/category');
-    console.log(response.data, "response.data");
+    // console.log(response.data, "response.data");
     category_options.value = response.data.categories;
     current_category.value = response.data.categories[0];
   } catch (error) {
@@ -37,8 +38,20 @@ watch(current_category, async (new_val) => {
   }
 });
 
+async function getPost() {
+  try {
+    const response = await axiosInstance.get(`/admin/post/${post_id.value}`);
+    form_fields.value = response.data.data;
+  } catch (error) {
+    console.log(error, "error");
+  }
+}
+
 async function init() {
   await getCategories()
+  if (post_id.value) {
+    await getPost()
+  }
 }
 
 async function submitForm() {
@@ -61,7 +74,7 @@ onMounted(() => {
 
 <template>
   <div class="admin-post-create-view">
-    <h2 class="mb-5">Create new post</h2>
+    <h2 class="mb-5">Edit post</h2>
     <form @submit.prevent="submitForm">
       <div class="form-group mb-4">
         <label for="title">Title</label>
@@ -78,7 +91,7 @@ onMounted(() => {
         <SelectComponent :options="category_options" v-model:value="current_category" label="Category" />
         <span v-if="errors && errors.category_id" class="text-danger">{{ errors.category_id[0] }}</span>
       </div>
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">Edit</button>
     </form>
   </div>
 </template>

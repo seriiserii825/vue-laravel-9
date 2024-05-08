@@ -102,6 +102,17 @@ function getCategoryName(categoryId: number) {
   return category ? category.title : '';
 }
 
+async function onDelete(id: number) {
+  if (confirm('Are you sure you want to delete this record?')) {
+    try {
+      await axiosInstance.delete(`/admin/post/${id}`);
+      await getPosts();
+    } catch (error) {
+      console.log(error, "error");
+    }
+  }
+}
+
 async function init() {
   await getCategories();
   await getPosts();
@@ -138,6 +149,7 @@ onMounted(() => {
               <span v-if="sort_field === 'created_at' && sort_direction === 'asc'">&darr;</span>
             </a>
           </td>
+          <td>Actions</td>
         </tr>
       </thead>
       <tbody>
@@ -146,6 +158,10 @@ onMounted(() => {
           <td>{{ post.title }}</td>
           <td>{{ getCategoryName(post.category_id) }}</td>
           <td>{{ post.created_at }}</td>
+          <td>
+            <RouterLink :to="'/admin/posts/edit/' + post.id" class="btn btn-primary">Edit</RouterLink>
+            <button class="btn btn-danger ml-2" @click="onDelete(post.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -165,10 +181,6 @@ onMounted(() => {
       margin-left: 3rem;
     }
   }
-  &__total {
-    /* margin-bottom: 3.2rem; */
-  }
-
   table {
     margin-top: 20px;
     width: 100%;
